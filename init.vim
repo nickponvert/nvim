@@ -64,6 +64,22 @@ filetype off
 let g:python3_host_prog = '/home/nick.ponvert/anaconda3/bin/python'
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.config/nvim/bundle/Vundle.vim
+set rtp+=~/.fzf
 call vundle#begin('~/.config/nvim/bundle')
+Plugin 'VundleVim/Vundle.vim'
 
+" Git wrapper
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rhubarb'
+
+" Should be default
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+
+Plugin 'junegunn/fzf.vim'
+
+"Plugin 'vim-airline/vim-airline'
+
+call vundle#end()
+filetype plugin indent on
 " let Vundle manage Vundle, required

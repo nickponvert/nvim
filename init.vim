@@ -21,6 +21,7 @@ nnoremap <Leader>w <C-w>
 """"" WORD PROCESSING """"""
 " Function to set text-editing-specific commands
 func! WordProcessor()
+  call goyo#execute(0, [])
   " movement changes
   map j gj
   map k gk
@@ -71,6 +72,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
+Plugin 'junegunn/goyo.vim'
 
 " Should be default
 Plugin 'tpope/vim-surround'

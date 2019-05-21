@@ -6,21 +6,37 @@ set hlsearch                " highlight search results
 set tabstop=4               " number of columns occupied by a tab character
 set softtabstop=4           " see multiple spaces as tabstops so <BS> does the right thing
 set expandtab               " converts tabs to white space
-set shiftwidth=4            " width for autoindents
-set autoindent              " indent a new line the same amount as the line just typed
+set shiftwidth=4            " width for autoindents set autoindent              " indent a new line the same amount as the line just typed
 set number                  " add line numbers
 set wildmenu
 set wildmode=longest,list   " get bash-like tab completions
 set scrolloff=10
 imap fd <Esc>
 " set cc=80                   " set an 80 column border for good coding style
+"
 
 " Key bindings
 map <Space> <Leader>
 
 " Window management
-nnoremap <Leader>w <C-w>
+" nnoremap <Leader>w <C-w>
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
 nnoremap Q @@
+
+" FZF bindings
+nmap <Leader>b :Buffers<CR>
+nmap <Leader>f :Files<CR>
+nmap <Leader>t :Tags<CR>
+nmap <Leader>s :Ag<CR>
+nmap <Leader>m :Marks<CR>
+nmap <Leader><space> :Commands<CR>
+
+" Unimpaired-style bindings for moving between hunks
+nmap ]g :GitGutterNextHunk<CR>
+nmap [g :GitGutterPrevHunk<CR>
 
 """"" WORD PROCESSING """"""
 " Function to set text-editing-specific commands
@@ -91,6 +107,13 @@ Plugin 'airblade/vim-gitgutter'
 
 Plugin 'w0rp/ale'
 Plugin 'maximbaz/lightline-ale'
+Plugin 'mileszs/ack.vim'
+Plugin 'christoomey/vim-tmux-navigator'
+
+Plugin 'vim-python/python-syntax'
+
+" TODO: I want to get this working. 
+" Plugin 'neoclide/coc.nvim'
 
 call vundle#end()
 filetype plugin indent on
@@ -98,6 +121,7 @@ filetype plugin indent on
 "
 "
 set rtp+=/home/nick/.fzf/bin/fzf
+let g:ackprg = 'ag --vimgrep'
 
 " GitGutter
 let g:gitgutter_sign_added = '●'
@@ -120,8 +144,10 @@ highlight clear LineNr
 highlight clear SignColumn
 " highlight link ALEErrorSign Error
 " highlight link ALEWarningSign Error
+" let g:ale_sign_warning = '▲'
 let g:ale_sign_warning = '▲'
 let g:ale_sign_error = '✗'
+let g:ale_set_highlights = 0
 " highlight link ALEWarningSign String
 " highlight link ALEErrorSign Title
 
@@ -129,7 +155,8 @@ function! LightlineLinterWarnings() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
-  return l:counts.total == 0 ? '' : printf('%d ◆', all_non_errors)
+  return l:counts.total == 0 ? '' : printf('%d ▲', all_non_errors)
+  " return l:counts.total == 0 ? '' : printf('%d ◆', all_non_errors)
 endfunction
 
 function! LightlineLinterErrors() abort

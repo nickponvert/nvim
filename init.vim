@@ -9,7 +9,10 @@ set expandtab               " converts tabs to white space
 set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line just typed
 set number                  " add line numbers
+set wildmenu
 set wildmode=longest,list   " get bash-like tab completions
+set scrolloff=10
+imap fd <Esc>
 " set cc=80                   " set an 80 column border for good coding style
 
 " Key bindings
@@ -17,6 +20,7 @@ map <Space> <Leader>
 
 " Window management
 nnoremap <Leader>w <C-w>
+nnoremap Q @@
 
 """"" WORD PROCESSING """"""
 " Function to set text-editing-specific commands
@@ -62,7 +66,8 @@ command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr system(&grepprg . '
 command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
 
 filetype off
-let g:python3_host_prog = '/home/nick.ponvert/anaconda3/bin/python'
+
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.config/nvim/bundle/Vundle.vim
 set rtp+=~/.fzf
@@ -77,11 +82,94 @@ Plugin 'junegunn/goyo.vim'
 " Should be default
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
+Plugin 'chriskempson/base16-vim'
+Plugin 'scrooloose/nerdcommenter'
 
+Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/fzf.vim'
+Plugin 'airblade/vim-gitgutter'
 
-"Plugin 'vim-airline/vim-airline'
+Plugin 'w0rp/ale'
+Plugin 'maximbaz/lightline-ale'
 
 call vundle#end()
 filetype plugin indent on
 " let Vundle manage Vundle, required
+"
+"
+set rtp+=/home/nick/.fzf/bin/fzf
+
+" GitGutter
+let g:gitgutter_sign_added = '●'
+let g:gitgutter_sign_modified = '●'
+let g:gitgutter_sign_removed = '●'
+let g:gitgutter_sign_modified_removed = '●'
+
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDToggleCheckAllLines = 1
+
+let g:python3_host_prog = '/home/nick.ponvert/anaconda3/bin/python'
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme base16-harmonic-light
+set noshowmode
+
+" ALE
+highlight clear LineNr
+highlight clear SignColumn
+" highlight link ALEErrorSign Error
+" highlight link ALEWarningSign Error
+let g:ale_sign_warning = '▲'
+let g:ale_sign_error = '✗'
+" highlight link ALEWarningSign String
+" highlight link ALEErrorSign Title
+
+function! LightlineLinterWarnings() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('%d ◆', all_non_errors)
+endfunction
+
+function! LightlineLinterErrors() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('%d ✗', all_errors)
+endfunction
+
+function! LightlineLinterOK() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '✓ ' : ''
+endfunction
+
+autocmd User ALELint call s:MaybeUpdateLightline()
+
+" Update and show lightline but only if it's visible (e.g., not in Goyo)
+function! s:MaybeUpdateLightline()
+  if exists('#lightline')
+    call lightline#update()
+  end
+endfunction
+
+" Lightline
+let g:lightline = {
+\ 'colorscheme': 'seoul256',
+\ 'active': {
+\   'left': [['mode', 'paste'], ['filename', 'modified']],
+\   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
+\ },
+\ 'component_expand': {
+\   'linter_warnings': 'LightlineLinterWarnings',
+\   'linter_errors': 'LightlineLinterErrors',
+\   'linter_ok': 'LightlineLinterOK'
+\ },
+\ 'component_type': {
+\   'readonly': 'error',
+\   'linter_warnings': 'warning',
+\   'linter_errors': 'error'
+\ },
+\ }

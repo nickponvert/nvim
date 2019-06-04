@@ -32,6 +32,7 @@ nmap <Leader>f :Files<CR>
 nmap <Leader>t :Tags<CR>
 nmap <Leader>s :Ag<CR>
 nmap <Leader>m :Marks<CR>
+nmap <Leader>n :NERDTreeToggle<CR>
 nmap <Leader><space> :Commands<CR>
 
 " Unimpaired-style bindings for moving between hunks
@@ -93,6 +94,8 @@ Plugin 'VundleVim/Vundle.vim'
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
+
+" Focus mode
 Plugin 'junegunn/goyo.vim'
 
 " Should be default
@@ -111,6 +114,9 @@ Plugin 'mileszs/ack.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 
 Plugin 'vim-python/python-syntax'
+Plugin 'julienr/vim-cellmode'
+
+Plugin 'scrooloose/nerdtree'
 
 " TODO: I want to get this working. 
 " Plugin 'neoclide/coc.nvim'
@@ -140,8 +146,8 @@ colorscheme base16-harmonic-light
 set noshowmode
 
 " ALE
-highlight clear LineNr
-highlight clear SignColumn
+" highlight clear LineNr
+" highlight clear SignColumn
 " highlight link ALEErrorSign Error
 " highlight link ALEWarningSign Error
 " let g:ale_sign_warning = '▲'

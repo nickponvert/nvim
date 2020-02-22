@@ -1,8 +1,9 @@
 set nocompatible            " Disable compatibility to old-time vi
 set showmatch               " Show matching brackets.
 set ignorecase              " Do case insensitive matching
-set mouse=v                 " middle-click paste with mouse
-set hlsearch                " highlight search results
+set mouse=a                 " middle-click paste with mouse
+set clipboard=unnamedplus   " yank to system clipboard by default
+"set hlsearch                " highlight search results
 set tabstop=4               " number of columns occupied by a tab character
 set softtabstop=4           " see multiple spaces as tabstops so <BS> does the right thing
 set expandtab               " converts tabs to white space
@@ -17,6 +18,8 @@ imap fd <Esc>
 
 " Key bindings
 map <Space> <Leader>
+
+noremap <silent> <Leader>h :silent noh<Bar>echo<CR>
 
 " Window management
 " nnoremap <Leader>w <C-w>
@@ -101,31 +104,43 @@ Plugin 'junegunn/goyo.vim'
 " Should be default
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'chriskempson/base16-vim'
+" Plugin 'chriskempson/base16-vim' "BROKEN!!
 Plugin 'scrooloose/nerdcommenter'
 
 Plugin 'itchyny/lightline.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'airblade/vim-gitgutter'
 
-Plugin 'w0rp/ale'
-Plugin 'maximbaz/lightline-ale'
+" Plugin 'w0rp/ale'
+" Plugin 'maximbaz/lightline-ale'
 Plugin 'mileszs/ack.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 
 Plugin 'vim-python/python-syntax'
-Plugin 'julienr/vim-cellmode'
+" Plugin 'julienr/vim-cellmode'
 
 Plugin 'scrooloose/nerdtree'
+Plugin 'Vimjas/vim-python-pep8-indent'
+Plugin 'tpope/vim-markdown'
+Plugin 'jgdavey/tslime.vim'
 
-" TODO: I want to get this working. 
+Plugin 'jreybert/vimagit'
+
+" DONE: I want to get this working. 
 " Plugin 'neoclide/coc.nvim'
 
 call vundle#end()
 filetype plugin indent on
 " let Vundle manage Vundle, required
 "
-"
+
+
+" Tslime bindings
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+nmap <C-c>r <Plug>SetTmuxVars
+
+
 set rtp+=/home/nick/.fzf/bin/fzf
 let g:ackprg = 'ag --vimgrep'
 
@@ -140,9 +155,12 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDToggleCheckAllLines = 1
 
-let g:python3_host_prog = '/home/nick.ponvert/anaconda3/bin/python'
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-harmonic-light
+let g:cellmode_tmux_panenumber = 1
+
+let g:python3_host_prog = '/home/nick/src/anaconda2/envs/visb/bin/python'
+" let base16colorspace=256  " Access colors present in 256 colorspace
+" colorscheme base16-heetch
+" colorscheme base16-dracula
 set noshowmode
 
 " ALE
